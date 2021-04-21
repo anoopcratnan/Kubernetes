@@ -1,0 +1,37 @@
+
+Deploying to an Azure Kubernetes cluster - Resources
+You can use the following resources as a reference for deploying nginx to a Kubernetes cluster
+
+1. Create an app.yml file and enter the following content
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: my-image
+        image: nginx
+        ports:
+        - containerPort: 80
+2. Create a service.yml file and enter the following content
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: my-app
